@@ -103,7 +103,7 @@
             // 
             this.RemarksTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.RemarksTextBox.Location = new System.Drawing.Point(83, 113);
-            this.RemarksTextBox.MaxLength = 32;
+            this.RemarksTextBox.MaxLength = 256;
             this.RemarksTextBox.Name = "RemarksTextBox";
             this.RemarksTextBox.Size = new System.Drawing.Size(160, 21);
             this.RemarksTextBox.TabIndex = 4;
@@ -199,6 +199,7 @@
             this.EncryptionSelect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.EncryptionSelect.ItemHeight = 12;
             this.EncryptionSelect.Items.AddRange(new object[] {
+            "rc4",
             "rc4-md5",
             "salsa20",
             "chacha20",
