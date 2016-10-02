@@ -13,6 +13,8 @@ using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
 
+using System.Drawing.Imaging;
+
 namespace Shadowsocks.View
 {
     public class MenuViewController
@@ -393,16 +395,16 @@ namespace Shadowsocks.View
             //int strategyCount = i;
 
             // user wants a seperator item between strategy and servers menugroup
-            items.Add( i++, new MenuItem("-") );
+            // items.Add( i++, new MenuItem("-") );
 
             int strategyCount = i;
-            /***items = ServersItem.MenuItems;
+            items = ServersItem.MenuItems;
             while (items[0].Text != "-")
             {
                 items.RemoveAt(0);
             }
             i = 0;
-		ui change***/
+		/***ui change***/
             Configuration configuration = controller.GetConfigurationCopy();
             foreach (var server in configuration.configs)
             {
@@ -526,6 +528,14 @@ namespace Shadowsocks.View
             controller.Stop();
             _notifyIcon.Visible = false;
             Application.Exit();
+        }
+		
+		private void CheckUpdateForFirstRun()
+        {
+            Configuration config = controller.GetConfigurationCopy();
+            if (config.isDefault) return;
+            _isStartupChecking = true;
+            updateChecker.CheckUpdate(config, 3000);
         }
 
         private void ShowFirstTimeBalloon()
