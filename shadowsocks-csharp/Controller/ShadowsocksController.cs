@@ -139,12 +139,12 @@ namespace Shadowsocks.Controller
             return null;
         }
 
-        public Server GetAServer(IStrategyCallerType type, IPEndPoint localIPEndPoint)
+        public Server GetAServer(IStrategyCallerType type, IPEndPoint localIPEndPoint, EndPoint destEndPoint)
         {
             IStrategy strategy = GetCurrentStrategy();
             if (strategy != null)
             {
-                return strategy.GetAServer(type, localIPEndPoint);
+                return strategy.GetAServer(type, localIPEndPoint, destEndPoint);
             }
             if (_config.index < 0)
             {
@@ -272,6 +272,7 @@ namespace Shadowsocks.Controller
             {
                 SystemProxy.Update(_config, true);
             }
+            Encryption.RNG.Close();
         }
 
         public void TouchPACFile()
@@ -358,6 +359,7 @@ namespace Shadowsocks.Controller
         public void SaveLogViewerConfig(LogViewerConfig newConfig)
         {
             _config.logViewer = newConfig;
+            newConfig.SaveSize();
             Configuration.Save(_config);
             if (ConfigChanged != null)
             {
@@ -413,6 +415,7 @@ namespace Shadowsocks.Controller
 
         protected void Reload()
         {
+            Encryption.RNG.Reload();
             // some logic in configuration updated the config when saving, we need to read it again
             _config = Configuration.Load();
             StatisticsConfiguration = StatisticsStrategyConfiguration.Load();

@@ -47,6 +47,7 @@ Password=密碼
 Encryption=加密
 Proxy Port=代理連接埠
 Remarks=備註
+Timeout(Sec)=超時(秒)
 Onetime Authentication=單次驗證
 OK=確定
 Cancel=取消
@@ -89,13 +90,12 @@ Please input PAC Url=請輸入 PAC 網址
 
 # HotkeySettings Form
 
-Switch system proxy=切换系統代理狀態
-Switch to PAC mode=切换為PAC模式
-Switch to Global mode=切换為全局模式
-Switch share over LAN=切换區域網路共享
+Switch system proxy=切換系統代理狀態
+Switch system proxy mode=切換系統代理模式
+Switch share over LAN=切換區域網路共享
 Show Logs=顯示日誌
-Switch to prev server=切换上個伺服器
-Switch to next server=切换下個伺服器
+Switch to prev server=切換上個伺服器
+Switch to next server=切換下個伺服器
 Reg All=註冊全部捷徑鍵
 
 # Messages
@@ -103,6 +103,7 @@ Reg All=註冊全部捷徑鍵
 Shadowsocks Error: {0}=Shadowsocks 錯誤: {0}
 Port already in use=連接埠號碼已被占用
 Illegal port number format=非法連接埠號碼格式
+Illegal timeout format=非法超時格式
 Please add at least one server=請新增至少一個伺服器
 Server IP can not be blank=伺服器 IP 不能為空
 Password can not be blank=密碼不能為空
@@ -128,7 +129,9 @@ System Proxy On: =系統代理已啟用：
 Running: Port {0}=正在運行：連接埠號碼 {0}
 Unexpected error, shadowsocks will exit. Please report to=非預期錯誤，Shadowsocks將退出。請提交此錯誤到
 Unsupported operating system, use Windows Vista at least.=不支持的作業系統版本，最低需求為Windows Vista。
+Unsupported .NET Framework, please update to 4.6.2 or later.=當前 .NET Framework 版本過低，最低需求為4.6.2。
 Proxy request failed=代理請求失敗
 Proxy handshake failed=代理握手失敗
 Register hotkey failed=註冊捷徑鍵失敗
 Cannot parse hotkey: {0}=解析捷徑鍵失敗: {0}
+Timeout is invalid, it should not exceed {0}=超時無效，不應超過 {0}
