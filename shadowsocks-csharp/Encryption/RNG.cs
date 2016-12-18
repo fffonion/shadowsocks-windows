@@ -13,6 +13,7 @@ namespace Shadowsocks.Encryption
                 _rng = new RNGCryptoServiceProvider();
         }
 
+
         public static void Close()
         {
             if (_rng == null) return;
