@@ -71,8 +71,7 @@ namespace Shadowsocks.Properties {
         }
         
         /// <summary>
-        ///   查找类似 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-        ///# translation for Simplified Chinese
+        ///   查找类似 # translation for Simplified Chinese
         ///
         ///Shadowsocks=Shadowsocks
         ///
@@ -94,7 +93,7 @@ namespace Shadowsocks.Properties {
         ///Edit Local PAC File...=编辑本地 PAC 文件...
         ///Update Local PAC from GFWList=从 GFWList 更新本地 PAC
         ///Edit User Rule for GFWList...=编辑 GFWList 的用户规则...
-        ///Show QRCode...=显示二维码 [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///Secure Loca [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string cn {
             get {
@@ -217,6 +216,26 @@ namespace Shadowsocks.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] sysproxy_exe {
+            get {
+                object obj = ResourceManager.GetObject("sysproxy_exe", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] sysproxy64_exe {
+            get {
+                object obj = ResourceManager.GetObject("sysproxy64_exe", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ! Put user rules line by line in this file.
         ///! See https://adblockplus.org/en/filter-cheatsheet
         /// 的本地化字符串。
@@ -249,8 +268,8 @@ namespace Shadowsocks.Properties {
         ///Edit Local PAC File...=編輯本地 PAC 文件...
         ///Update Local PAC from GFWList=從 GFWList 更新本地 PAC
         ///Edit User Rule for GFWList...=編輯 GFWList 的用戶規則...
-        ///Show QRCode...=顯示 QR 碼...
-        ///Scan QRCode from Screen [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///Secure Local PAC=保護本地 PAC
+        ///Copy Local PAC URL=複製本地 [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string zh_tw {
             get {

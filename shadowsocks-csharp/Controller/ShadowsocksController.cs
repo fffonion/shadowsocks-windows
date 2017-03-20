@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Web;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 
 using Shadowsocks.Controller.Strategy;
@@ -186,7 +188,6 @@ namespace Shadowsocks.Controller
         public void ToggleEnable(bool enabled)
         {
             _config.enabled = enabled;
-            UpdateSystemProxy();
             SaveConfig(_config);
             if (EnableStatusChanged != null)
             {
@@ -197,7 +198,6 @@ namespace Shadowsocks.Controller
         public void ToggleGlobal(bool global)
         {
             _config.global = global;
-            UpdateSystemProxy();
             SaveConfig(_config);
             if (EnableGlobalChanged != null)
             {
@@ -221,12 +221,13 @@ namespace Shadowsocks.Controller
             SaveConfig(_config);
         }
 
-        public void EnableProxy(int type, string proxy, int port)
+        public void EnableProxy(int type, string proxy, int port, int timeout)
         {
             _config.proxy.useProxy = true;
             _config.proxy.proxyType = type;
             _config.proxy.proxyServer = proxy;
             _config.proxy.proxyPort = port;
+            _config.proxy.proxyTimeout = timeout;
             SaveConfig(_config);
         }
 
@@ -270,7 +271,7 @@ namespace Shadowsocks.Controller
             }
             if (_config.enabled)
             {
-                SystemProxy.Update(_config, true);
+                SystemProxy.Update(_config, true, null);
             }
             Encryption.RNG.Close();
         }
@@ -301,11 +302,15 @@ namespace Shadowsocks.Controller
 
         public static string GetQRCode(Server server)
         {
-            string parts = server.method;
-            if (server.auth) parts += "-auth";
-            parts += ":" + server.password + "@" + server.server + ":" + server.server_port;
+            string tag = string.Empty;
+            string auth = server.auth ? "-auth" : string.Empty;
+            string parts = $"{server.method}{auth}:{server.password}@{server.server}:{server.server_port}";
             string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
-            return "ss://" + base64;
+            if(!server.remarks.IsNullOrEmpty())
+            {
+                tag = $"#{HttpUtility.UrlEncode(server.remarks, Encoding.UTF8)}";
+            }
+            return $"ss://{base64}{tag}";
         }
 
         public void UpdatePACFromGFWList()
@@ -327,7 +332,6 @@ namespace Shadowsocks.Controller
         public void SavePACUrl(string pacUrl)
         {
             _config.pacUrl = pacUrl;
-            UpdateSystemProxy();
             SaveConfig(_config);
             if (ConfigChanged != null)
             {
@@ -338,7 +342,16 @@ namespace Shadowsocks.Controller
         public void UseOnlinePAC(bool useOnlinePac)
         {
             _config.useOnlinePac = useOnlinePac;
-            UpdateSystemProxy();
+            SaveConfig(_config);
+            if (ConfigChanged != null)
+            {
+                ConfigChanged(this, new EventArgs());
+            }
+        }
+
+        public void ToggleSecureLocalPac(bool enabled)
+        {
+            _config.secureLocalPac = enabled;
             SaveConfig(_config);
             if (ConfigChanged != null)
             {
@@ -356,10 +369,9 @@ namespace Shadowsocks.Controller
             }
         }
 
-        public void SaveLogViewerConfig(LogViewerConfig newConfig)
+        public void ToggleCheckingPreRelease(bool enabled)
         {
-            _config.logViewer = newConfig;
-            newConfig.SaveSize();
+            _config.checkPreRelease = enabled;
             Configuration.Save(_config);
             if (ConfigChanged != null)
             {
@@ -367,9 +379,10 @@ namespace Shadowsocks.Controller
             }
         }
 
-        public void SaveProxyConfig(ProxyConfig newConfig)
+        public void SaveLogViewerConfig(LogViewerConfig newConfig)
         {
-            _config.proxy = newConfig;
+            _config.logViewer = newConfig;
+            newConfig.SaveSize();
             Configuration.Save(_config);
             if (ConfigChanged != null)
             {
@@ -504,7 +517,7 @@ namespace Shadowsocks.Controller
         {
             if (_config.enabled)
             {
-                SystemProxy.Update(_config, false);
+                SystemProxy.Update(_config, false, _pacServer);
                 _systemProxyIsDirty = true;
             }
             else
@@ -512,7 +525,7 @@ namespace Shadowsocks.Controller
                 // only switch it off if we have switched it on
                 if (_systemProxyIsDirty)
                 {
-                    SystemProxy.Update(_config, false);
+                    SystemProxy.Update(_config, false, _pacServer);
                     _systemProxyIsDirty = false;
                 }
             }
@@ -577,6 +590,11 @@ namespace Shadowsocks.Controller
                 }
             }
             File.WriteAllText(PACServer.PAC_FILE, abpContent, Encoding.UTF8);
+        }
+
+        public void CopyPacUrl()
+        {
+            Clipboard.SetDataObject(_pacServer.PacUrl);
         }
 
         #region Memory Management
