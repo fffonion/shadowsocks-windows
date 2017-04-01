@@ -54,7 +54,6 @@ Encryption=加密
 Proxy Port=代理端口
 Remarks=备注
 Timeout(Sec)=超时(秒)
-Onetime Authentication=一次性认证
 OK=确定
 Cancel=取消
 New server=未配置的服务器
@@ -142,4 +141,3 @@ Proxy handshake failed=代理握手失败
 Register hotkey failed=注册热键失败
 Cannot parse hotkey: {0}=解析热键失败: {0}
 Timeout is invalid, it should not exceed {0}=超时无效，不应超过 {0}
->>>>>>> 011fc253bbbf39e0cffe00ac5152305f44b24a08

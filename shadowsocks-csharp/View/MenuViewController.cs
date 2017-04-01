@@ -12,6 +12,7 @@ using Shadowsocks.Controller;
 using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
+using System.Linq;
 
 using System.Drawing.Imaging;
 
@@ -95,12 +96,6 @@ namespace Shadowsocks.View
             {
                 _isStartupChecking = true;
                 updateChecker.CheckUpdate(config, 3000);
-            }
-
-            if (config.isDefault)
-            {
-                _isFirstRun = true;
-                ShowConfigForm();
             }
         }
 
